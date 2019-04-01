@@ -4,22 +4,36 @@ import ReportPageItem from './ReportItem';
 class ReportPage extends Component {
   constructor(props) {
     super(props);
+    this.renderReportPage = this.renderReportPage.bind(this);
+  }
 
-    this.state = {
-      pageTitle: this.props.pageTitle,
-      items: this.props.items
-    };
+  renderReportPage(pageTitle, items) {
+    return (
+      <div className="ReportPage">
+        <h2>{pageTitle}</h2>
+        {items.map((item, index) => {
+          return <ReportPageItem name={item.name} src={item.src} />;
+        })}
+      </div>
+    );
   }
 
   render() {
-    console.log('this.state', this.state);
+    console.log('pageData', this.props.pageData);
     return (
-      <div className="ReportPage">
-        <h2>{this.state.pageTitle}</h2>
-
-        {this.state.items.map((item, index) => {
-          return <ReportPageItem name={item.name} src={item.src} />;
-        })}
+      <div>
+        {this.props.pageData.length > 1 ? (
+          <div>
+            {this.props.pageData.map(element => {
+              return this.renderReportPage(element.pageTitle, element.items);
+            })}
+          </div>
+        ) : (
+          this.renderReportPage(
+            this.props.pageData.pageTitle,
+            this.props.pageData.items
+          )
+        )}
       </div>
     );
   }
